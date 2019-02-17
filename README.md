@@ -37,21 +37,25 @@ This code covers Stage 1 of the Restaurant Reviews web application for the Mobil
 
 2. Navigate to both folders in your Terminal editor of choice. 
 
-
-    Use the command `node install` to install project dependencies require to build.
+   Use the command `node install` to install project dependencies require to build.
 
 3. The data server can be started with the command 
-
+    
     ```node server```
-    
-    and the application can be built with the command
-    
-    ```gulp``` or ```npm run start```
-    
-    which will start the build process for the application and automatically launch it in a browser window when it's complete.
-    
-    The application will utilize the ports __8080__ for the app itself and __1337__ for the API server.
-    
-    IndexedDB Promised Library by Jake Archibald can be found [here](https://github.com/jakearchibald/idb)
-    
-    Logic for the Database Promise object was used from Alexandro Perez's MWS Project Walkthrough [here](https://alexandroperez.github.io/mws-walkthrough/)
+   
+   and the application can be built with the command
+   
+   ```gulp``` or ```npm run start```
+   
+   which will start the build process for the application and automatically launch it in a browser window when it's complete.
+   
+   The application will utilize the ports __8080__ for the app itself and __1337__ for the API server.
+   
+   IndexedDB Promised Library by Jake Archibald can be found [here](https://github.com/jakearchibald/idb)
+   
+   Logic for the Database Promise object was used from Alexandro Perez's MWS Project Walkthrough [here](https://alexandroperez.github.io/mws-walkthrough/)
+
+   ### v3.0
+
+   1. `npm install`
+   2. `gulp`

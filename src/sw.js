@@ -1,53 +1,62 @@
-const restaurantReviewsCacheName = 'restaurantReviews-static-002';
-const imgsCacheName = 'restaurantReviews-images-002'; 
+let cacheName = 'restaurant-reviews';
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install',(event) => {
     event.waitUntil(
-        caches.open(restaurantReviewsCacheName).then((cache) => {
+        caches.open(cacheName).then((cache) => {
             return cache.addAll([
                 '/',
-                '/restaurant.html',
-                '/css/styles.css',
-                '/utils/index.js',
-                '/utils/restaurant.js',
-                '/manifest.json',
+                'css/styles.css',
+                'bundle_js/main.bundle.js',
+                'bundle_js/restaurant.bundle.js',
+                'manifest.json'
             ]);
-        }).catch((err) => {
-            console.log("Cache error while opening: " + err);
+        })
+
+    );
+});
+
+self.addEventListener('activate', function(event) {
+    event.waitUntil(
+        caches.keys().then((cacheNames)=> {
+            cacheNames.filter((cacheNames)=> {
+                return cacheNames.startsWith('restaurant-reviews') && cacheNames != cacheName ;
+            }).map((cacheNames)=> {
+                return caches.delete(cacheNames);
+            })
         })
     );
 });
 
 self.addEventListener('fetch', (event) => {
-    let requestURL = new URL(event.request.url);
+   
+    const reqUrl = event.request.url;
+    
+    let url = new URL(event.request.url);
 
-    if (requestURL.origin === location.origin) {
-        if (requestURL.pathname.startsWith('/images/')){
-            event.respondWith(cachedImage(event.request));
-            return;
-        }
-        if (requestURL.pathname === '/restaurant.html'){
-            event.respondWith(caches.match('/restaurant.html'));
-            return;
-        }
+    if (url.pathname.startsWith('/restaurants')) {
+       return;
+    }
+
+    if (url.pathname.startsWith('/browser-sync')) {
+        return;
+    }
+
+    if (url.pathname.startsWith('/reviews')) {
+        return;
     }
 
     event.respondWith(
-        caches.match(event.request).then((response) =>{
-            return response || fetch(event.request);
+        caches.match(event.request).then((res) => {
+            if(res) return res;
+            return fetch(event.request).then((res) => {
+                if(!(reqUrl.match('mapbox') )){
+                    let clone = res.clone();
+                    caches.open(cacheName).then((cache) => {
+                        cache.put(reqUrl, clone);
+                    });
+                }
+                return res;
+            });
         })
     );
 });
-
-const cachedImage = (request) => {
-    return caches.open(imgsCacheName).then((cache) => {
-        return cache.match(request.url).then((response) =>{
-            if (response) return response;
-
-            return fetch(request).then((networkResponse) => {
-                cache.put(request.url, networkResponse.clone());
-                return networkResponse;
-            });
-        });
-    });
-}

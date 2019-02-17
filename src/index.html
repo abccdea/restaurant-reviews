@@ -4,56 +4,70 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1f79b7" />
-    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css"/>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
     <link rel="stylesheet" href="css/styles.css">
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+        href="https://cdn.jsdelivr.net/npm/siiimple-toast/dist/style.css">
     <title>Restaurant Reviews</title>
 </head>
 
 <body>
-<header>
-    <nav>
-        <h1 tabindex="0">
-            <a href="/">Restaurant Reviews</a>
-        </h1>
-    </nav>
-</header>
+    <header>
+        <nav>
+            <h1 tabindex="0">
+                <a href="/">Restaurant Reviews</a>
+            </h1>
+        </nav>
+    </header>
 
-<main id="maincontent">
-    <section id="map-container" aria-labelledby="map-aria-description" role="application">
-        <div id="map"></div>
-    </section>
-    <label id="map-aria-description" class="map-aria-description">Google map application</label>
-    <section>
-        <div class="filter-options">
-            <h2 tabindex="0">Filter Results</h2>
-            <div class="filter-selects">
-                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()"
+    <main id="maincontent">
+        <section id="map-container" aria-labelledby="map-aria-description" role="application">
+            <div id="map"></div>
+        </section>
+        <label id="map-aria-description" class="map-aria-description">Google map application</label>
+        <section>
+            <div class="filter-options">
+                <h2 tabindex="0">Filter Results</h2>
+                <div class="filter-selects">
+                    <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()"
                         aria-labelledby="neighborhoods-label" tabindex="0">
-                    <option value="all">All Neighborhoods</option>
-                </select>
-                <label id="neighborhoods-label" class="filter-label">by neighborhoods</label>
-                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()"
+                        <option value="all">All Neighborhoods</option>
+                    </select>
+                    <label id="neighborhoods-label" class="filter-label">by neighborhoods</label>
+                    <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()"
                         aria-labelledby="cuisines-label" tabindex="0">
-                    <option value="all">All Cuisines</option>
-                </select>
-                <label id="cuisines-label" class="filter-label">by cuisines</label>
+                        <option value="all">All Cuisines</option>
+                    </select>
+                    <label id="cuisines-label" class="filter-label">by cuisines</label>
+                </div>
             </div>
-        </div>
-        <ul id="restaurants-list"></ul>
-    </section>
-</main>
+            <ul id="restaurants-list"></ul>
+        </section>
+    </main>
 
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC38aSAHF9RkxzXZy4b19oPyBST84fUaUc&libraries=places&callback=initMap"></script>
-<script type="application/javascript" charset="utf-8" src="utils/index.js"></script>
+    <script src="bundle_js/main.bundle.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4Qssx3eLd0Qv5YNt7ERUbIwCbscZkQUc&libraries=places&callback=initMap"></script>
+    <script>
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker.register('./sw.js').then(() => {
+                console.log('Service Worker Registered!');
+            }).catch(() => {
+                console.log('Registration failed!');
+            })
+        }
+    </script>
+    <script async defer src="https://cdn.polyfill.io/v2/polyfill.js?features=Element.prototype.classList"></script>
+    <script async defer src="../node_modules/focus-visible/dist/focus-visible.min.js"></script>
+    <script async defer src="https://cdn.jsdelivr.net/npm/siiimple-toast/dist/siiimple-toast.min.js"></script>
 
-<footer id="footer">
-    Copyright (c) 2017
-    <a href="/">
-        <strong>Restaurant Reviews</strong>
-    </a> All Rights Reserved.
-</footer>
+    <footer id="footer">
+        Copyright (c) 2019
+        <a href="/">
+            <strong>Restaurant Reviews</strong>
+        </a> All Rights Reserved.
+    </footer>
 
 </body>
 
